@@ -21,7 +21,7 @@ function start(){
 			nlat:30,
 			nlong:30,
 			radius:3,
-	//textures: 'https://lizgar.github.io/A3D/js/earth.jpg'
+			textures: 'https://lizgar.github.io/A3D/js/earth.jpg'
 		}
 	);
 	
@@ -34,7 +34,7 @@ PhiloGL('glcanvas',
 		}
 	},
 	
-	/*textures:{
+	textures:{
 		
 		src: ['https://lizgar.github.io/A3D/js/earth.jpg'],
 		parameters: [{
@@ -48,11 +48,36 @@ PhiloGL('glcanvas',
 		}
 			
 		]
-	},*/
+	},
 	
 	
-
-	
+    //Controles(?)
+    events: {
+        onDragStart: function(e) {
+          pos = {
+            x: e.x,
+            y: e.y
+          };
+        },
+        onDragMove: function(e) {
+          var z = this.camera.position.z,
+              sign = Math.abs(z) / z;
+  
+          tierra.rotation.y += -(pos.x - e.x) / 100;
+          tierra.rotation.x += sign * (pos.y - e.y) / 100;
+          tierra.update();
+          pos.x = e.x;
+          pos.y = e.y;
+        },
+        onMouseWheel: function(e) {
+          e.stop();
+          var camera = this.camera;
+          camera.position.z += e.wheel;
+          camera.update();
+        }
+      },
+    
+	//Escena
 	onLoad: function(app){
 		
 		var gl= app.gl,
